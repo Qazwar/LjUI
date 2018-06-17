@@ -1,5 +1,3 @@
-
-
 #ifndef _YL_RENDERER_H_
 #define _YL_RENDERER_H_
 
@@ -8,6 +6,7 @@
 
 #include <windows.h>
 #include "../Types/Types.h"
+#include "RenderFactory.h"
 
 namespace ljui
 {
@@ -18,16 +17,9 @@ namespace ljui
 		*/
 		using SolidBrush = ID2D1SolidColorBrush;
 
-
-		class RenderFactory
-		{
-		public:
-			static ID2D1Factory* GetRenderFactory();
-		private:
-			static ID2D1Factory * factory;
-			RenderFactory();
-		};
-
+		/*
+		class HwndRenderer
+		*/
 		class HwndRenderer
 		{
 		public:
@@ -39,8 +31,6 @@ namespace ljui
 
 			void BeginDraw();
 			HRESULT EndDraw();
-
-
 		private:
 			HWND hwnd_ = NULL;
 			ID2D1HwndRenderTarget* hwnd_render_target_ = nullptr;
