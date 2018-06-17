@@ -1,0 +1,13 @@
+
+*.db
+.vs/LjUI/v15/.suo
+.vs/LjUI/v15/Browse.VC.opendb
+*.ipch
+*.exe
+*.ilk
+*.pdb
+*.log
+*.tlog
+*.obj
+*.idb
+*.aps
