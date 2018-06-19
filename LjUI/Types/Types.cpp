@@ -18,7 +18,6 @@ namespace ljui
 			return pt;
 		}
 
-
 		Ellipse::operator D2D1_ELLIPSE()
 		{
 			D2D1_ELLIPSE e;
