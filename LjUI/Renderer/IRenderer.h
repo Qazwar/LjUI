@@ -7,6 +7,7 @@
 #include <windows.h>
 #include "../Types/Types.h"
 #include "RenderFactory.h"
+#include "TextFormatPool.h"
 
 namespace ljui
 {
@@ -28,6 +29,23 @@ namespace ljui
 			TEXT_ANTIALIAS_MODE_ALIASED = 3
 		};
 
+		enum DrawTextOptions
+		{
+			DRAW_TEXT_OPTIONS_NO_SNAP = 0x00000001,
+			DRAW_TEXT_OPTIONS_CLIP = 0x00000002,
+			DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT = 0x00000004,
+			DRAW_TEXT_OPTIONS_DISABLE_COLOR_BITMAP_SNAPPING = 0x00000008,
+			DRAW_TEXT_OPTIONS_NONE = 0x00000000,
+			DRAW_TEXT_OPTIONS_FORCE_DWORD = 0xffffffff
+		};
+
+		enum MeasuringMode
+		{
+			MEASURING_MODE_NATURAL,
+			MEASURING_MODE_GDI_CLASSIC,
+			MEASURING_MODE_GDI_NATURAL
+		};
+
 		class IRenderer
 		{
 		public:
@@ -42,23 +60,30 @@ namespace ljui
 			virtual LRESULT CreateSolidColorBrush(const types::ColorF& color, SolidColorBrush** ppBrush);
 			virtual void DrawEllipse(const types::Ellipse& ellipse, SolidColorBrush* brush, types::FLOAT width);
 			virtual void DrawEllipse(types::Ellipse* ellipse, SolidColorBrush* brush, types::FLOAT width);
-			virtual void DrawLine(types::Point2F point0, types::Point2F point1, SolidColorBrush *brush, types::FLOAT strokeWidth = 1.0f);
-			virtual void DrawRectangle(const types::RectF &rect, Brush *brush, types::FLOAT strokeWidth = 1.0f);
-			virtual void DrawRectangle(types::RectF* rect, Brush* brush, types::FLOAT strokeWidth = 1.0f);
-			virtual void DrawRoundedRectangle(const types::RoundRect& roundedRect, Brush* brush, types::FLOAT strokeWidth = 1.0f);
-			virtual void DrawRoundedRectangle(types::RoundRect* roundedRect, Brush* brush, types::FLOAT strokeWidth = 1.0f);
-
+			virtual void DrawLine(types::Point2F point0, types::Point2F point1, SolidColorBrush* brush, types::FLOAT stroke_width = 1.0f);
+			virtual void DrawRectangle(const types::RectF& rect, Brush* brush, types::FLOAT stroke_width = 1.0f);
+			virtual void DrawRectangle(types::RectF* rect, Brush* brush, types::FLOAT stroke_width = 1.0f);
+			virtual void DrawRoundedRectangle(const types::RoundRect& rounded_rect, Brush* brush, types::FLOAT stroke_width = 1.0f);
+			virtual void DrawRoundedRectangle(types::RoundRect* rounded_rect, Brush* brush, types::FLOAT stroke_width = 1.0f);
+			virtual void DrawText(std::wstring str, UINT string_len, TextFormat* text_format, const types::RectF& layout_rect,
+				Brush* brush, DrawTextOptions options = DrawTextOptions::DRAW_TEXT_OPTIONS_NONE,
+				MeasuringMode measuring_mode = MeasuringMode::MEASURING_MODE_NATURAL);
+			virtual void DrawText(std::wstring str, UINT string_len, TextFormat* text_format, const types::RectF* layout_rect,
+				Brush* brush, DrawTextOptions options = DrawTextOptions::DRAW_TEXT_OPTIONS_NONE,
+				MeasuringMode measuring_mode = MeasuringMode::MEASURING_MODE_NATURAL);
 			virtual void FillEllipse(const types::Ellipse& ellipse, Brush* brush);
 			virtual void FillEllipse(types::Ellipse* ellipse, Brush* brush);
-			virtual void FillRectangle(const types::RectF& rect, Brush *brush);
-			virtual void FillRectangle(types::RectF* rect, Brush *brush);
-			virtual void FillRoundedRectangle(const types::RoundRect &roundedRect, Brush *brush);
-			virtual void FillRoundedRectangle(types::RoundRect* roundedRect, Brush *brush);
+			virtual void FillRectangle(const types::RectF& rect, Brush* brush);
+			virtual void FillRectangle(types::RectF* rect, Brush* brush);
+			virtual void FillRoundedRectangle(const types::RoundRect& rounded_rect, Brush* brush);
+			virtual void FillRoundedRectangle(types::RoundRect* rounded_rect, Brush* brush);
 
-			virtual void SetAntialiasMode(ANTIALIAS_MODE antialiasMode);
+			virtual void SetAntialiasMode(ANTIALIAS_MODE antialias_mode);
 			virtual ANTIALIAS_MODE GetAntialiasMode()const;
-			virtual void SetTextAntialiasMode(TEXT_ANTIALIAS_MODE textAntialiasMode);
+			virtual void SetTextAntialiasMode(TEXT_ANTIALIAS_MODE text_antialias_mode);
 			virtual TEXT_ANTIALIAS_MODE GetTextAntialiasMode()const;
+			virtual HRESULT Flush();
+
 		protected:
 			ID2D1RenderTarget * render_target_ = nullptr;
 		};
@@ -103,9 +128,6 @@ DrawGeometry
 
 DrawGlyphRun
 绘制指定字形。
-
-DrawText
-使用 IDWriteTextFormat 对象提供的格式信息绘制指定文本。（2 个重载。）
 
 DrawTextLayout
 绘制由指定 IDWriteTextLayout 对象描述的格式化文本。

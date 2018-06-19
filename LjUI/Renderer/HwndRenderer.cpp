@@ -1,5 +1,5 @@
 #include "HwndRenderer.h"
-#include <typeinfo>
+
 namespace ljui
 {
 	namespace renderer
