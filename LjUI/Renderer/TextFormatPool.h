@@ -111,8 +111,9 @@ namespace ljui
 			static TextFormatPool* text_format_pool;
 			TextFormatPool() {};
 		protected:
-			virtual TextFormat* CreateResource(const TextFormatRequiredProperty& _property);
-			virtual TextFormat* CreateResource(const TextFormatRequiredProperty& _property, const TextFormatAlternativeProperty& _alt_property);
+			virtual TextFormat* CreateResource(const TextFormatRequiredProperty& _property)override;
+			virtual TextFormat* CreateResource(const TextFormatRequiredProperty& _property, const TextFormatAlternativeProperty& _alt_property)override;
+			virtual void SetAlternativeProperty(TextFormat* text_format, const TextFormatAlternativeProperty& _alt_property)override;
 		};
 
 	}//namespace renderer

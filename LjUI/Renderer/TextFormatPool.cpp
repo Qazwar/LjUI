@@ -53,11 +53,16 @@ namespace ljui
 			TextFormat* text_format = CreateResource(_property);
 			if (text_format)
 			{
-				text_format->SetParagraphAlignment(static_cast<DWRITE_PARAGRAPH_ALIGNMENT>(_alt_property.paragraph_alignment));
-				text_format->SetTextAlignment(static_cast<DWRITE_TEXT_ALIGNMENT>(_alt_property.text_alignment));
-				text_format->SetWordWrapping(static_cast<DWRITE_WORD_WRAPPING>(_alt_property.word_wrapping));
+				SetAlternativeProperty(text_format, _alt_property);
 			}
 			return text_format;
+		}
+
+		void TextFormatPool::SetAlternativeProperty(TextFormat* text_format, const TextFormatAlternativeProperty& _alt_property)
+		{
+			text_format->SetParagraphAlignment(static_cast<DWRITE_PARAGRAPH_ALIGNMENT>(_alt_property.paragraph_alignment));
+			text_format->SetTextAlignment(static_cast<DWRITE_TEXT_ALIGNMENT>(_alt_property.text_alignment));
+			text_format->SetWordWrapping(static_cast<DWRITE_WORD_WRAPPING>(_alt_property.word_wrapping));
 		}
 
 	}//namespace renderer
