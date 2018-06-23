@@ -6,31 +6,31 @@ namespace ljui
 	{
 		bool HwndRenderer::Initialized()const
 		{
-			return hwnd_ != NULL && render_target_ != nullptr;
+			return _hwnd != NULL && _render_target != nullptr;
 		}
 
 		HRESULT HwndRenderer::Initialize(HWND hwnd, types::SizeU size)
 		{
-			hwnd_ = hwnd;
+			_hwnd = hwnd;
 			return RenderFactory::GetRenderFactory()->CreateHwndRenderTarget(
 				D2D1::RenderTargetProperties(),
-				D2D1::HwndRenderTargetProperties(reinterpret_cast<HWND>(hwnd_), size),
-				reinterpret_cast<ID2D1HwndRenderTarget**>(&render_target_));
+				D2D1::HwndRenderTargetProperties(reinterpret_cast<HWND>(_hwnd), size),
+				reinterpret_cast<ID2D1HwndRenderTarget**>(&_render_target));
 		}
 
 		HRESULT HwndRenderer::Resize(const types::SizeU& size)
 		{
-			return reinterpret_cast<ID2D1HwndRenderTarget*>(render_target_)->Resize(size);
+			return reinterpret_cast<ID2D1HwndRenderTarget*>(_render_target)->Resize(size);
 		}
 
 		HRESULT HwndRenderer::Resize(types::SizeU* size)
 		{
-			return reinterpret_cast<ID2D1HwndRenderTarget*>(render_target_)->Resize(size);
+			return reinterpret_cast<ID2D1HwndRenderTarget*>(_render_target)->Resize(size);
 		}
 
 		HWND HwndRenderer::GetHwnd()const
 		{
-			return hwnd_;
+			return _hwnd;
 		}
 	}//namespace renderer
 }//namespace ljui

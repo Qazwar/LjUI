@@ -21,21 +21,21 @@ namespace ljui
 		}
 
 
-		TextFormatPool* TextFormatPool::text_format_pool = nullptr;
+		TextFormatPool* TextFormatPool::_text_format_pool = nullptr;
 
 		TextFormatPool* TextFormatPool::GetTextFormatPool()
 		{
-			if (!text_format_pool)
+			if (!_text_format_pool)
 			{
-				text_format_pool = new TextFormatPool;
+				_text_format_pool = new TextFormatPool;
 			}
-			return text_format_pool;
+			return _text_format_pool;
 		}
 
 		TextFormat* TextFormatPool::CreateResource(const TextFormatRequiredProperty& _property)
 		{
 			TextFormat* text_format;
-			HRESULT hr = DWriteFactory::GetDWriteFactory()->CreateTextFormat(_property.font_family.c_str(), nullptr,
+			HRESULT hr = DWriteFactory::GetOriginalDWriteFactory()->CreateTextFormat(_property.font_family.c_str(), nullptr,
 				static_cast<DWRITE_FONT_WEIGHT>(_property.font_weight), static_cast<DWRITE_FONT_STYLE>(_property.font_style),
 				static_cast<DWRITE_FONT_STRETCH>(_property.font_stretch), _property.font_size, L"", &text_format);
 			if (SUCCEEDED(hr))

@@ -12,7 +12,7 @@ namespace ljui
 		public:
 			static ID2D1Factory* GetRenderFactory();
 		private:
-			static ID2D1Factory * factory;
+			static ID2D1Factory * _factory;
 			RenderFactory();
 		};
 

@@ -14,7 +14,7 @@ namespace ljui
 			Resource * GetResource(const RequiredProperty& _property);
 			Resource* GetResource(const RequiredProperty& _property, const AlternativeProperty& _alt_property);
 		protected:
-			std::map<RequiredProperty, Resource*> resources_;
+			std::map<RequiredProperty, Resource*> _resources;
 			virtual Resource* CreateResource(const RequiredProperty& _property) = 0;
 			virtual Resource* CreateResource(const RequiredProperty& _property, const AlternativeProperty& _alt_property) = 0;
 			virtual void SetAlternativeProperty(Resource* res, const AlternativeProperty& _alt_property) = 0;
@@ -24,16 +24,16 @@ namespace ljui
 		Resource* IResourcePool<RequiredProperty, AlternativeProperty, Resource>::GetResource(const RequiredProperty& _property)
 		{
 
-			auto it = resources_.find(_property);
+			auto it = _resources.find(_property);
 
-			if (it != resources_.end())
+			if (it != _resources.end())
 			{
 				return it->second;
 			}
 			else
 			{
 				auto res = CreateResource(_property);
-				resources_.insert(std::make_pair(_property, res));
+				_resources.insert(std::make_pair(_property, res));
 				return res;
 			}
 		}

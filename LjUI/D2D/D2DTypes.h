@@ -1,16 +1,46 @@
-#ifndef _YL_TEXTFORMATPOOL_H_
-#define _YL_TEXTFORMATPOOL_H_
-
-#include "IResourcePool.h"
+#ifndef _YL_D2DTYPES_H_
+#define _YL_D2DTYPES_H_
+#include <d2d1.h>
 #include <dwrite.h>
 #include <string>
-#include "../Types/Types.h"
-#include "DWriteFactory.h"
-
 namespace ljui
 {
 	namespace renderer
 	{
+
+		using Brush = ID2D1Brush;
+		using SolidColorBrush = ID2D1SolidColorBrush;
+
+		enum ANTIALIAS_MODE
+		{
+			ANTIALIAS_MODE_PER_PRIMITIVE = 0,
+			ANTIALIAS_MODE_ALIASED = 1
+		};
+		enum TEXT_ANTIALIAS_MODE
+		{
+			TEXT_ANTIALIAS_MODE_DEFAULT = 0,
+			TEXT_ANTIALIAS_MODE_CLEARTYPE = 1,
+			TEXT_ANTIALIAS_MODE_GRAYSCALE = 2,
+			TEXT_ANTIALIAS_MODE_ALIASED = 3
+		};
+
+		enum DrawTextOptions
+		{
+			DRAW_TEXT_OPTIONS_NO_SNAP = 0x00000001,
+			DRAW_TEXT_OPTIONS_CLIP = 0x00000002,
+			DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT = 0x00000004,
+			DRAW_TEXT_OPTIONS_DISABLE_COLOR_BITMAP_SNAPPING = 0x00000008,
+			DRAW_TEXT_OPTIONS_NONE = 0x00000000,
+			DRAW_TEXT_OPTIONS_FORCE_DWORD = 0xffffffff
+		};
+
+		enum MeasuringMode
+		{
+			MEASURING_MODE_NATURAL,
+			MEASURING_MODE_GDI_CLASSIC,
+			MEASURING_MODE_GDI_NATURAL
+		};
+
 		using FontCollection = IDWriteFontCollection;
 
 		enum FontWeight
@@ -103,18 +133,7 @@ namespace ljui
 
 		using TextFormat = IDWriteTextFormat;
 
-		class TextFormatPool :public IResourcePool<TextFormatRequiredProperty, TextFormatAlternativeProperty, TextFormat>
-		{
-		public:
-			static TextFormatPool* GetTextFormatPool();
-		private:
-			static TextFormatPool* text_format_pool;
-			TextFormatPool() {};
-		protected:
-			virtual TextFormat* CreateResource(const TextFormatRequiredProperty& _property)override;
-			virtual TextFormat* CreateResource(const TextFormatRequiredProperty& _property, const TextFormatAlternativeProperty& _alt_property)override;
-			virtual void SetAlternativeProperty(TextFormat* text_format, const TextFormatAlternativeProperty& _alt_property)override;
-		};
+		using TextLayout = IDWriteTextLayout;
 
 	}//namespace renderer
 }//namespace ljui

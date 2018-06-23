@@ -1,14 +1,14 @@
 #ifndef _YL_HWNDRENDERER_H_
 #define _YL_HWNDRENDERER_H_
 
-#include "IRenderer.h"
+#include "BaseRenderer.h"
 
 
 namespace ljui
 {
 	namespace renderer
 	{
-		class HwndRenderer :public IRenderer
+		class HwndRenderer :public BaseRenderer
 		{
 		public:
 			virtual bool Initialized()const;
@@ -17,7 +17,7 @@ namespace ljui
 			HRESULT Resize(types::SizeU* size);
 			HWND GetHwnd()const;
 		private:
-			HWND hwnd_;
+			HWND _hwnd;
 		};
 	}
 }

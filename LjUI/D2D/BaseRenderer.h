@@ -1,11 +1,12 @@
-#ifndef _YL_IRENDERER_H_
-#define _YL_IRENDERER_H_
+#ifndef _YL_BASERENDERER_H_
+#define _YL_BASERENDERER_H_
 
 #include <d2d1.h>
 #pragma comment(lib,"d2d1.lib")
 
 #include <windows.h>
 #include "../Types/Types.h"
+#include "D2DTypes.h"
 #include "RenderFactory.h"
 #include "TextFormatPool.h"
 
@@ -13,40 +14,8 @@ namespace ljui
 {
 	namespace renderer
 	{
-		using Brush = ID2D1Brush;
-		using SolidColorBrush = ID2D1SolidColorBrush;
 
-		enum ANTIALIAS_MODE
-		{
-			ANTIALIAS_MODE_PER_PRIMITIVE = 0,
-			ANTIALIAS_MODE_ALIASED = 1
-		};
-		enum TEXT_ANTIALIAS_MODE
-		{
-			TEXT_ANTIALIAS_MODE_DEFAULT = 0,
-			TEXT_ANTIALIAS_MODE_CLEARTYPE = 1,
-			TEXT_ANTIALIAS_MODE_GRAYSCALE = 2,
-			TEXT_ANTIALIAS_MODE_ALIASED = 3
-		};
-
-		enum DrawTextOptions
-		{
-			DRAW_TEXT_OPTIONS_NO_SNAP = 0x00000001,
-			DRAW_TEXT_OPTIONS_CLIP = 0x00000002,
-			DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT = 0x00000004,
-			DRAW_TEXT_OPTIONS_DISABLE_COLOR_BITMAP_SNAPPING = 0x00000008,
-			DRAW_TEXT_OPTIONS_NONE = 0x00000000,
-			DRAW_TEXT_OPTIONS_FORCE_DWORD = 0xffffffff
-		};
-
-		enum MeasuringMode
-		{
-			MEASURING_MODE_NATURAL,
-			MEASURING_MODE_GDI_CLASSIC,
-			MEASURING_MODE_GDI_NATURAL
-		};
-
-		class IRenderer
+		class BaseRenderer
 		{
 		public:
 			virtual bool Initialized()const = 0;
@@ -71,6 +40,9 @@ namespace ljui
 			virtual void DrawText(std::wstring str, UINT string_len, TextFormat* text_format, const types::RectF* layout_rect,
 				Brush* brush, DrawTextOptions options = DrawTextOptions::DRAW_TEXT_OPTIONS_NONE,
 				MeasuringMode measuring_mode = MeasuringMode::MEASURING_MODE_NATURAL);
+			virtual void DrawTextLayout(types::Point2F origin, TextLayout* text_layout,
+				Brush* brush, DrawTextOptions options = DrawTextOptions::DRAW_TEXT_OPTIONS_NONE);
+
 			virtual void FillEllipse(const types::Ellipse& ellipse, Brush* brush);
 			virtual void FillEllipse(types::Ellipse* ellipse, Brush* brush);
 			virtual void FillRectangle(const types::RectF& rect, Brush* brush);
@@ -85,7 +57,7 @@ namespace ljui
 			virtual HRESULT Flush();
 
 		protected:
-			ID2D1RenderTarget * render_target_ = nullptr;
+			ID2D1RenderTarget * _render_target = nullptr;
 		};
 
 		/*todo::
