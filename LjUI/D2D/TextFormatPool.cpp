@@ -58,6 +58,23 @@ namespace ljui
 			return text_format;
 		}
 
+		void TextFormatPool::ReleaseResource(TextFormat* resource)
+		{
+			if (resource == nullptr)
+			{
+				return;
+			}
+			auto it = std::find_if(_resources.begin(), _resources.end(), [&](decltype(_resources)::value_type e)
+			{
+				return e.second == resource;
+			});
+			if (it != _resources.end())
+			{
+				_resources.erase(it);
+			}
+			resource->Release();
+		}
+
 		void TextFormatPool::SetAlternativeProperty(TextFormat* text_format, const TextFormatAlternativeProperty& _alt_property)
 		{
 			text_format->SetParagraphAlignment(static_cast<DWRITE_PARAGRAPH_ALIGNMENT>(_alt_property.paragraph_alignment));

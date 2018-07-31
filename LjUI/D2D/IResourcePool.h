@@ -13,6 +13,8 @@ namespace ljui
 		public:
 			Resource * GetResource(const RequiredProperty& _property);
 			Resource* GetResource(const RequiredProperty& _property, const AlternativeProperty& _alt_property);
+			virtual void ReleaseResource(Resource* resource){}
+			virtual ~IResourcePool();
 		protected:
 			std::map<RequiredProperty, Resource*> _resources;
 			virtual Resource* CreateResource(const RequiredProperty& _property) = 0;
@@ -21,7 +23,8 @@ namespace ljui
 		};
 
 		template<typename RequiredProperty, typename AlternativeProperty, typename Resource>
-		Resource* IResourcePool<RequiredProperty, AlternativeProperty, Resource>::GetResource(const RequiredProperty& _property)
+		Resource* IResourcePool<RequiredProperty, AlternativeProperty, Resource>::
+			GetResource(const RequiredProperty& _property)
 		{
 
 			auto it = _resources.find(_property);
@@ -47,6 +50,17 @@ namespace ljui
 			SetAlternativeProperty(res, _alt_property);
 			return res;
 		}
+
+		template<typename RequiredProperty, typename AlternativeProperty, typename Resource>
+		IResourcePool<RequiredProperty, AlternativeProperty, Resource>::
+			~IResourcePool()
+		{
+			for (auto& p : _resources)
+			{
+				ReleaseResource(p.second);
+			}
+		}
+
 	}//namespace renderer
 }//namespace ljui
 

@@ -5,6 +5,7 @@
 #include "../Types/Types.h"
 #include "D2DTypes.h"
 #include "DWriteFactory.h"
+#include <algorithm>
 
 namespace ljui
 {
@@ -15,6 +16,7 @@ namespace ljui
 		{
 		public:
 			static TextFormatPool* GetTextFormatPool();
+			virtual void ReleaseResource(TextFormat* resource)override;
 		private:
 			static TextFormatPool* _text_format_pool;
 			TextFormatPool() {};
