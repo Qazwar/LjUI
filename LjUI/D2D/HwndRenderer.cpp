@@ -6,7 +6,7 @@ namespace ljui
 	{
 		bool HwndRenderer::Initialized()const
 		{
-			return _hwnd != NULL && _render_target != nullptr;
+			return _hwnd != nullptr && _render_target != nullptr;
 		}
 
 		HRESULT HwndRenderer::Initialize(HWND hwnd, types::SizeU size)

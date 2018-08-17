@@ -11,13 +11,13 @@ namespace ljui
 		class HwndRenderer :public BaseRenderer
 		{
 		public:
-			virtual bool Initialized()const;
+			virtual bool Initialized()const override;
 			virtual HRESULT Initialize(HWND hwnd, types::SizeU size);
 			HRESULT Resize(const types::SizeU& size);
 			HRESULT Resize(types::SizeU* size);
 			HWND GetHwnd()const;
 		private:
-			HWND _hwnd;
+			HWND _hwnd = nullptr;
 		};
 	}
 }

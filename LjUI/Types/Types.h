@@ -32,6 +32,7 @@ namespace ljui
 		public:
 			operator D2D1_ELLIPSE();
 		}Ellipse;
+		using Rect = RECT;
 		using RectF = D2D1_RECT_F;
 		using RectL = D2D1_RECT_L;
 		using RectU = D2D1_RECT_U;
@@ -43,6 +44,9 @@ namespace ljui
 		public:
 			operator D2D1_ROUNDED_RECT();
 		}RoundRect;
+
+		using TRenderTargetProperties = D2D1_RENDER_TARGET_PROPERTIES;
+		namespace d2d = D2D1;
 	}//namespace type
 }//namespace ljui
 
